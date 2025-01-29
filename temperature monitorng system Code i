@@ -1,0 +1,50 @@
+ #include<LiquidCrystal.h>
+ 
+// connection of lcd display to Arduino pins
+const int rs = 12;
+const int en = 11;
+const int d4 = 5;
+const int d5 = 4;
+const int d6 = 3;
+const int d7 = 2;
+
+ LiquidCrystal lcd(rs,en,d4,d5,d6,d7);
+
+// Variable to store the temperature in Celsius
+float celsius;
+
+// Pin connected to the temperature sensor
+int temp = A1;
+
+void setup() {
+    // Set the temperature sensor pin as an input
+    pinMode(temp, INPUT);
+
+    // Initialize the LCD display
+    lcd.begin(16, 2); // Assuming a 16x2 LCD display
+}
+
+void loop() {
+    // Read the analog value from the temperature sensor
+    int sensorValue = analogRead(temp);
+
+    // Convert the analog value to voltage
+    float voltage = sensorValue * 0.004882814;
+
+    // Convert the voltage to Celsius
+    celsius = (voltage - 0.5) * 100.0;
+
+    // Set the cursor to the second row, first column
+    lcd.setCursor(0, 1);
+
+    // Print the temperature on the LCD display
+    lcd.print("Temp: ");
+    lcd.print(celsius);
+    lcd.print(" C");
+
+    // Wait for a second
+    delay(1000);
+
+    // Clear the LCD display
+    lcd.clear();
+} 
